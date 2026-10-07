@@ -1,0 +1,16 @@
+services:
+  # Dashboard SPA (React + Vite + react-router BrowserRouter).
+  # Every route below "/" is client-side only, so Render must serve index.html
+  # for unmatched paths instead of looking for a real file and 404-ing.
+  - type: web
+    runtime: static
+    name: feature-flag-dashboard
+    rootDir: dashboard
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    routes:
+      # Real build assets are untouched: Render skips rewrite rules for paths
+      # that exist on disk (/assets/*, /favicon.svg, ...). Keep this rule last.
+      - type: rewrite
+        source: /*
+        destination: /index.html
